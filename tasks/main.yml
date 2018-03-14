@@ -3,9 +3,15 @@
   stat: path={{ epel_repofile_path }}
   register: epel_repofile_result
 
+- name: Download EPEL repo package
+  get_url:
+    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    dest: /tmp/epel-release-latest-7.noarch.rpm
+    mode: 0440
+
 - name: Install EPEL repo.
   yum:
-    name: "{{ epel_repo_url }}"
+    name: "/tmp/epel-release-latest-7.noarch.rpm"
     state: present
   register: result
   until: '"failed" not in result'
